@@ -1,0 +1,152 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #f0f0f0;
+    color: #333;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#game-container {
+    text-align: center;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+#scoreboard {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.choice-button {
+    padding: 15px;
+    font-size: 2rem;
+    margin: 0.5rem;
+    border: none;
+    background-color: #008CBA;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.choice-button:hover {
+    background-color: #005f73;
+    transform: scale(1.05);
+}
+
+#new-game {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 2rem;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+#new-game[style*="display: none"] {
+    display: none !important;
+}
+
+#new-game:hover {
+    background-color: #0056b3;
+}
+
+#new-game:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.result-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    color: #333;
+    min-height: 2rem;
+}
+
+#game-settings {
+    margin-top: 1.5rem;
+}
+
+button#toggle-theme,
+button#fullscreen-btn {
+    padding: 8px 16px;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+button#toggle-theme:hover,
+button#fullscreen-btn:hover {
+    background-color: #555;
+    transform: scale(1.05);
+}
+
+body.dark-mode {
+    background-color: #111;
+    color: #f5f5f5;
+}
+
+body.dark-mode #game-container {
+    background-color: #222;
+    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .choice-button {
+    background-color: #444;
+}
+
+body.dark-mode .choice-button:hover {
+    background-color: #666;
+}
+
+body.dark-mode #new-game {
+    background-color: #007bff;
+}
+
+body.dark-mode #new-game:hover {
+    background-color: #0056b3;
+}
+
+body.dark-mode #result,
+body.dark-mode #scoreboard,
+body.dark-mode h1 {
+    color: #fff;
+}
+
+body.dark-mode h1 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .result-text {
+    color: #f5f5f5;
+}

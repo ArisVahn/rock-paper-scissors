@@ -1,84 +1,118 @@
-function getComputerChoice() {
-    const randomNumber = Math.random();
-
-    if (randomNumber < 0.33) return "Rock";
-    if (randomNumber < 0.66) return "Paper";
-    return "Scissors";
-}
-
-function getHumanChoice() {
-    let userInput = prompt("Choose Rock, Paper, or Scissors:");
-    
-    if (userInput) { 
-        userInput = userInput.trim().toLowerCase();
-        
-        if (["rock", "paper", "scissors"].includes(userInput)) {
-            return userInput.charAt(0).toUpperCase() + userInput.slice(1);
-        } else {
-            alert("❌ Invalid choice! Please enter Rock, Paper, or Scissors.");
-            return getHumanChoice();
-        }
-    } else {
-        alert("❌ You must enter a choice!");
-        return getHumanChoice();
-    }
-}
-
-function playRound(humanChoice, computerChoice) {
-    console.log(`\nYou chose: ${humanChoice}`);
-    console.log(`Computer chose: ${computerChoice}`);
-
-    if (
-        (humanChoice === "Rock" && computerChoice === "Scissors") ||
-        (humanChoice === "Paper" && computerChoice === "Rock") ||
-        (humanChoice === "Scissors" && computerChoice === "Paper")
-    ) {
-        console.log(`✅ You win! ${humanChoice} beats ${computerChoice}.`);
-        return "human";
-    } 
-    if (
-        (computerChoice === "Rock" && humanChoice === "Scissors") ||
-        (computerChoice === "Paper" && humanChoice === "Rock") ||
-        (computerChoice === "Scissors" && humanChoice === "Paper")
-    ) {
-        console.log(`❌ You lose! ${computerChoice} beats ${humanChoice}.`);
-        return "computer";
-    } 
-    console.log(`🤝 It's a tie! You both chose ${humanChoice}.`);
-    return "tie";
-}
-
-function playGame() {
+document.addEventListener("DOMContentLoaded", function () {
     let humanScore = 0;
     let computerScore = 0;
+    const choices = ["Rock", "Paper", "Scissors"];
+    const resultElement = document.getElementById("result");
+    const humanScoreElement = document.getElementById("human-score");
+    const computerScoreElement = document.getElementById("computer-score");
+    const newGameButton = document.getElementById("new-game");
+    const gameButtons = document.querySelectorAll(".choice-button");
+    const toggleThemeButton = document.getElementById("toggle-theme");
+    const fullscreenButton = document.getElementById("fullscreen-btn");
 
-    // Play 5 rounds
-    for (let round = 1; round <= 5; round++) {
-        console.log(`\n--- Round ${round} ---`);
+    const themes = {
+        light: "light-mode",
+        dark: "dark-mode",
+    };
+    let currentTheme = "light";
 
-        const humanChoice = getHumanChoice();
+    function getComputerChoice() {
+        return choices[Math.floor(Math.random() * choices.length)];
+    }
+
+    function displayResult(resultMessage) {
+        resultElement.textContent = resultMessage;
+    }
+
+    function updateScore() {
+        humanScoreElement.textContent = `Human: ${humanScore}`;
+        computerScoreElement.textContent = `Computer: ${computerScore}`;
+    }
+
+    function checkWinner() {
+        if (humanScore === 5) {
+            displayResult("🎉 Congratulations! You won the game!");
+            disableButtons();
+            newGameButton.classList.add('visible');
+        } else if (computerScore === 5) {
+            displayResult("😞 Sorry, you lost the game!");
+            disableButtons();
+            newGameButton.classList.add('visible');
+        }
+    }
+
+    function disableButtons() {
+        gameButtons.forEach((button) => {
+            button.disabled = true;
+        });
+    }
+
+    function enableButtons() {
+        gameButtons.forEach((button) => {
+            button.disabled = false;
+        });
+    }
+
+    function playRound(humanChoice) {
+        if (humanScore === 5 || computerScore === 5) return;
+
         const computerChoice = getComputerChoice();
-        const roundWinner = playRound(humanChoice, computerChoice);
+        let resultMessage = "";
 
-        if (roundWinner === "human") humanScore++;
-        if (roundWinner === "computer") computerScore++;
+        if (
+            (humanChoice === "Rock" && computerChoice === "Scissors") ||
+            (humanChoice === "Paper" && computerChoice === "Rock") ||
+            (humanChoice === "Scissors" && computerChoice === "Paper")
+        ) {
+            resultMessage = `✅ You win! ${humanChoice} beats ${computerChoice}.`;
+            humanScore++;
+        } else if (humanChoice === computerChoice) {
+            resultMessage = `🤝 It's a tie! You both chose ${humanChoice}.`;
+        } else {
+            resultMessage = `❌ You lose! ${computerChoice} beats ${humanChoice}.`;
+            computerScore++;
+        }
 
-        console.log(`Score after Round ${round}:`);
-        console.log(`Human: ${humanScore} | Computer: ${computerScore}`);
+        displayResult(resultMessage);
+        updateScore();
+        checkWinner();
     }
 
-    // Game result
-    console.log("\n--- Final Results ---");
-    if (humanScore > computerScore) {
-        console.log(`🎉 Congratulations! You win the game!`);
-        console.log(`Final Score: Human - ${humanScore} | Computer - ${computerScore}`);
-    } else if (computerScore > humanScore) {
-        console.log(`😞 Sorry, you lose the game!`);
-        console.log(`Final Score: Human - ${humanScore} | Computer - ${computerScore}`);
-    } else {
-        console.log(`🤝 It's a tie game!`);
-        console.log(`Final Score: Human - ${humanScore} | Computer - ${computerScore}`);
-    }
-}
+    gameButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const humanChoice = button.id.charAt(0).toUpperCase() + button.id.slice(1).toLowerCase();
+            playRound(humanChoice);
 
-playGame();
+            gameButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add(humanChoice.toLowerCase(), 'active');
+        });
+    });
+
+    newGameButton.addEventListener("click", function () {
+        humanScore = 0;
+        computerScore = 0;
+        updateScore();
+        displayResult("Make your choice!");
+        enableButtons();
+        newGameButton.classList.remove('visible');
+    });
+
+    toggleThemeButton.addEventListener("click", () => {
+        currentTheme = currentTheme === "light" ? "dark" : "light";
+        document.body.className = themes[currentTheme];
+        toggleThemeButton.innerHTML = currentTheme === "light" ? "<i class='fas fa-moon'></i>" : "<i class='fas fa-sun'></i>";
+    });
+
+    fullscreenButton.addEventListener("click", () => {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+    });
+
+    newGameButton.classList.remove('visible');
+    updateScore();
+});

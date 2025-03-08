@@ -1,12 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="script.js"></script>
-    <title>Document</title>
+    <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
-    
+    <div id="game-container">
+        <h1>Rock Paper Scissors</h1>
+        <div id="scoreboard">
+            <span id="human-score">Human: 0</span> |
+            <span id="computer-score">Computer: 0</span>
+        </div>
+
+        <div id="selection-buttons">
+            <button id="rock" class="choice-button"><i class="fas fa-hand-rock"></i></button>
+            <button id="paper" class="choice-button"><i class="fas fa-hand-paper"></i></button>
+            <button id="scissors" class="choice-button"><i class="fas fa-hand-scissors"></i></button>
+        </div>
+
+        <div id="result" class="result-text">Make your choice!</div>
+
+        <button id="new-game"><i class="fas fa-sync-alt"></i></button>
+
+        <div id="game-settings">
+            <button id="toggle-theme"><i class="fas fa-moon"></i></button>
+            <button id="fullscreen-btn"><i class="fas fa-expand"></i></button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
+
 </html>
